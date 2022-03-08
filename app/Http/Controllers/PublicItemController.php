@@ -29,7 +29,8 @@ class PublicItemController extends Controller
                 'entries.item_id',
                 // DB::raw("avg(price_per_kg),2 as cost"),
                 DB::raw("round(avg(price_per_kg),2) as cost"),
-                'entries.created_at',
+                DB::raw('max(entries.created_at) as created_at'),
+                // 'entries.created_at',
             ])
             ->join(DB::raw("({$latest_entry->toSql()}) latest_entry"), function (\Illuminate\Database\Query\JoinClause $join) {
                 $join
@@ -39,6 +40,7 @@ class PublicItemController extends Controller
             ->addBinding($latest_entry->getBindings(), 'join')
             ->whereNull('entries.deleted_at')
             ->groupBy('entries.item_id');
+        // return $avg_prices->orderBy('created_at', 'desc')->get();
         $items = DB::table('items')
             ->select([
                 'items.id',

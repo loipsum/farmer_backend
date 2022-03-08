@@ -19,7 +19,7 @@ class EntrySeeder extends Seeder
     public function run()
     {
         //? new seed
-        $no_weeks = 10;
+        $no_weeks = 3;
         // $item_id = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         $item_id = range(1, 24);
         // $item_id = [1, 2, 3];
@@ -28,7 +28,7 @@ class EntrySeeder extends Seeder
         foreach ($item_id as $item) {
             $cost[$item - 1] = rand(3, 8) * 10;
         }
-        $ref_date = Carbon::createFromDate(2022, 1, 1, 'Asia/Kolkata');
+        $ref_date = Carbon::createFromDate(2022, 2, 11, 'Asia/Kolkata');
         $faker = Factory::create();
 
         //? put image path here
