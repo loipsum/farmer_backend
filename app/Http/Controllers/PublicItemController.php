@@ -27,8 +27,8 @@ class PublicItemController extends Controller
         $avg_prices = DB::table('entries')
             ->select([
                 'entries.item_id',
-                DB::raw("avg(price_per_kg),2 as cost"),
-                // DB::raw("round(avg(price_per_kg),2) as cost"),
+                // DB::raw("avg(price_per_kg),2 as cost"),
+                DB::raw("round(avg(price_per_kg),2) as cost"),
                 'entries.created_at',
             ])
             ->join(DB::raw("({$latest_entry->toSql()}) latest_entry"), function (\Illuminate\Database\Query\JoinClause $join) {
@@ -61,7 +61,7 @@ class PublicItemController extends Controller
                 $query->whereIn('name', $itemFilter);
             })
             ->whereNull('deleted_at')
-            ->orderBy('id')
+            ->orderBy('entries.created_at', 'desc')
             ->paginate(
                 request('rowsPerPage') == '0' ? Item::count('id') : request('rowsPerPage') ?? Item::count('id'),
                 ['id'],
